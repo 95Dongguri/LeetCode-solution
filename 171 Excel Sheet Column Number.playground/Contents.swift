@@ -45,7 +45,6 @@ class Solution {
         var num = 1
         
         for i in 0...columnArr.count - 1 {
-            print(columnArr[i])
             answer = answer + (columnArr[i] * num)
             num = num * 26
         }
@@ -53,7 +52,3 @@ class Solution {
         return answer
     }
 }
-
-let s = Solution()
-
-s.titleToNumber("AB")
