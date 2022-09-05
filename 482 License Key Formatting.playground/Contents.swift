@@ -1,27 +1,27 @@
 /*
  You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
-
+ 
  We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
-
+ 
  Return the reformatted license key.
-
-  
-
+ 
+ 
+ 
  Example 1:
-
+ 
  Input: s = "5F3Z-2e-9-w", k = 4
  Output: "5F3Z-2E9W"
  Explanation: The string s has been split into two parts, each part has 4 characters.
  Note that the two extra dashes are not needed and can be removed.
  Example 2:
-
+ 
  Input: s = "2-5g-3-J", k = 2
  Output: "2-5G-3J"
  Explanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
-  
-
+ 
+ 
  Constraints:
-
+ 
  1 <= s.length <= 105
  s consists of English letters, digits, and dashes '-'.
  1 <= k <= 104
@@ -30,31 +30,19 @@
 class Solution {
     func licenseKeyFormatting(_ s: String, _ k: Int) -> String {
         var answer = ""
-        var sub = ""
-        let s = s.split(separator: "-")
+        var count = k
         
-        for i in 0...s.count - 1 {
-            sub += String(s[i])
-            
-            if i == 0 && s[i+1].count == k {
-                answer = answer + sub + "-"
-                sub = ""
+        for i in (0..<s.count).reversed() where s[String.Index(utf16Offset: i, in: s)] != "-" {
+            if count == 0 {
+                answer.append("-")
+                count = k
             }
             
-            if sub.count == k {
-                answer = answer + sub + "-"
-                sub = ""
-            }
-            
+            let char = s[.init(utf16Offset: i, in: s)].uppercased()
+            answer.append(char)
+            count -= 1
         }
         
-        answer.removeLast()
-        
-        return answer.uppercased()
+        return String(answer.reversed())
     }
 }
-
-let s = Solution()
-
-s.licenseKeyFormatting("5F3Z-2e-9-w", 4)
-s.licenseKeyFormatting("2-5g-3-J", 2)
